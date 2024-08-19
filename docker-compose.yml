@@ -24,7 +24,7 @@ services:
 
   budget_service:
     container_name: budget_docker
-    build: budgeting_service
+    build: ./budgeting_service
     ports:
       - "8082:8082"
     networks:
@@ -62,7 +62,7 @@ services:
 
   api-service:
     container_name: api-gateway
-    build: api_gateway
+    build: ./api_gateway
     depends_on:
       - postgres-db3
       - rabbitmq
@@ -105,7 +105,7 @@ services:
 
   auth-services:
     container_name: auth-services1
-    build: auth
+    build: ./auth
     networks:
       - app
     ports:
