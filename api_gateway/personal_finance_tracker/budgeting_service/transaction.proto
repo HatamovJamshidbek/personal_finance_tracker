@@ -1,0 +1,56 @@
+syntax="proto3";
+
+
+option  go_package="genproto/budgeting_service";
+
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+service  TransactionService {
+  rpc CreateTransaction (TransactionRequest) returns(Transaction);
+  rpc UpdateTransaction(Transaction)returns(Transaction);
+  rpc GetTransaction(PrimaryKey)returns(Transaction);
+  rpc GetListTransactions(GetListRequest)returns(Transactions);
+  rpc DeleteTransaction(PrimaryKey) returns(google.protobuf.Empty);
+  rpc GetUserSpending(GetUserMoneyRequest)returns(GetUserMoneyResponse);
+  rpc GetUserIncome(GetUserMoneyRequest)returns(GetUserMoneyResponse);
+
+}
+message  GetUserMoneyRequest{
+  string  user_id=1;
+  string  start_time=2;
+  string  end_time=3;
+}
+message  GetUserMoneyResponse{
+  string  category_id=1;
+  float  total_amount=2;
+  string  time=3;
+}
+
+
+message  Transaction{
+    string id=1;
+    string  user_id=2;
+    string  account_id=3;
+    string  category_id =4;
+    float  amount=5;
+    string  type=6;
+    string description=7;
+     string date=8;
+     string created_at=9;
+     string updated_at=10;
+}
+message  TransactionRequest{
+  string  user_id=1;
+  string  account_id=2;
+  string  category_id =3;
+  float  amount=4;
+  string  type=5;
+  string description=6;
+  string  date=7;
+}
+message  Transactions {
+  repeated  Transaction transactions=1;
+  int32  count=2;
+
+}

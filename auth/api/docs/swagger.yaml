@@ -1,0 +1,233 @@
+definitions:
+  models.LoginRequest:
+    properties:
+      email:
+        type: string
+      password_hash:
+        type: string
+    type: object
+  models.Register:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      image:
+        type: string
+      password_hash:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.RegisterResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      password_hash:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      description:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  models.Token:
+    properties:
+      access_token:
+        type: string
+      expired_time:
+        type: number
+      refresh_token:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: My Rent Uz
+  title: MyRentUz API
+  version: "1"
+paths:
+  /auth_service/login/:
+    post:
+      consumes:
+      - application/json
+      description: LoginUser User
+      parameters:
+      - description: user
+        in: body
+        name: user
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: LoginUser User
+      tags:
+      - Auth_Service
+  /auth_service/logout/:
+    get:
+      consumes:
+      - application/json
+      description: Logout of User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Logout of  User
+      tags:
+      - Auth_Service
+  /auth_service/refresh/:
+    get:
+      consumes:
+      - application/json
+      description: new_generate_token  for User
+      parameters:
+      - description: 'token '
+        in: query
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: new_generate_token for User
+      tags:
+      - Auth_Service
+  /auth_service/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with an optional profile image
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Register'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Register a new user
+      tags:
+      - Auth_Service
+  /auth_service/reset_password/:
+    put:
+      consumes:
+      - application/json
+      description: Change_Password of User
+      parameters:
+      - in: query
+        name: confirm_new_password
+        type: string
+      - in: query
+        name: email
+        type: string
+      - in: query
+        name: new_password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Change_Password of  User
+      tags:
+      - Auth_Service
+swagger: "2.0"

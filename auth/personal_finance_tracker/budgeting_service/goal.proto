@@ -1,0 +1,51 @@
+syntax="proto3";
+
+
+option  go_package="genproto/budgeting_service";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+import "common.proto";
+service  GoalService {
+  rpc CreateGoal (GoalRequest) returns(Goal);
+  rpc UpdateGoal(Goal)returns(Goal);
+  rpc GetGoal(PrimaryKey)returns(Goal);
+  rpc GetListGoals(GetListRequest)returns(Goals);
+  rpc DeleteGoal(PrimaryKey) returns(google.protobuf.Empty);
+  rpc GetGoalReportProgress(PrimaryKey)returns (GoalProgressesReport);
+
+}
+
+
+message Goal {
+      string id=1;
+      string user_id=2;
+      string  name=3;
+      float  target_amount=4;
+      float  current_amount=5;
+      google.protobuf.Timestamp deadline=6;
+     string  status=7;
+     google.protobuf.Timestamp created_at=8;
+     google.protobuf.Timestamp updated_at=9;
+}
+message GoalRequest {
+  string user_id=2;
+  string  name=3;
+  float  target_amount=4;
+  float  current_amount=5;
+  google.protobuf.Timestamp deadline=6;
+  string  status=7;
+}
+message Goals {
+  repeated  Goal goals=1;
+  int32  count=2;
+
+}
+message GoalProgressReport {
+  Goal goal=1;
+  float  progress=2;
+}
+message GoalProgressesReport {
+  repeated  GoalProgressReport goal_progresses_report=1;
+}

@@ -1,0 +1,16 @@
+syntax="proto3";
+
+
+option  go_package="genproto/budgeting_service";
+
+
+
+
+message  PrimaryKey{
+  string  id=1;
+}
+message GetListRequest{
+  int32 page=1;
+  int32  limit=2;
+  string  search=3;
+}

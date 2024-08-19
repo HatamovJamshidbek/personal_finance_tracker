@@ -1,0 +1,42 @@
+
+p, admin, /budget_service/v1/account, POST
+p, admin, /budget_service/v1/account, GET
+p, admin, /budget_service/v1/accounts, GET
+p, admin, /budget_service/v1/account, PUT
+p, admin, /budget_service/v1/account, DELETE
+
+
+p, admin, /budget_service/v2/budget, POST
+p, admin, /budget_service/v2/budget, GET
+p, admin, /budget_service/v2/budgets, GET
+p, admin, /budget_service/v2/budget, PUT
+p, admin, /budget_service/v2/budget, DELETE
+p, admin, /budget_service/v2//budget/summary, GET
+
+p, admin, /budget_service/v3/category, POST
+p, admin, /budget_service/v3/category, GET
+p, admin, /budget_service/v3/categories, GET
+p, admin, /budget_service/v3/category, PUT
+p, admin, /budget_service/v3/category, DELETE
+
+
+p, admin, /budget_service/v4/goal, POST
+p, admin, /budget_service/v4/goal, GET
+p, admin, /budget_service/v4/goals, GET
+p, admin, /budget_service/v4/goal, PUT
+p, admin, /budget_service/v4/goal, DELETE
+p, admin, /budget_service/v4/goals/report-progress, GET
+
+
+p, admin, /budget_service/v5/transaction, POST
+p, admin, /budget_service/v5/transaction, GET
+p, admin, /budget_service/v5/transactions, GET
+p, admin, /budget_service/v5/transaction, PUT
+p, admin, /budget_service/v5/transaction, DELETE
+p, admin, /budget_service/v5/transactions/income, GET
+p, admin, /budget_service/v5/transactions/spend, GET
+
+
+
+p, admin, /user_service/v6/user, GET
+p, admin, /user_service/v6/user/update, PUT

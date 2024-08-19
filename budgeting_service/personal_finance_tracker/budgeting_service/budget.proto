@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option go_package = "genproto/budgeting_service";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+service BudgetService {
+  rpc CreateBudget(BudgetRequest) returns(Budget);
+  rpc UpdateBudget(Budget) returns(Budget);
+  rpc GetBudget(PrimaryKey) returns(Budget);
+  rpc GetListBudgets(GetListRequest) returns(Budgets);
+  rpc DeleteBudget(PrimaryKey) returns(google.protobuf.Empty);
+  rpc GetBudgetSummary(PrimaryKey)returns(GetUserBudgetResponse);
+}
+message  BudgetSummaryItem{
+    string  category_id=1;
+    float  total_amount=2;
+    string  start_time=3;
+    string  end_time=4;
+    string  period=5;
+}
+message GetUserBudgetResponse{
+  repeated BudgetSummaryItem results=1;
+}
+message Budget {
+  string id = 1;
+  string user_id = 2;
+  string category_id = 3;
+  float amount = 4;
+  string period = 5;
+  string start_time = 6;
+  string end_time = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message BudgetRequest {
+  string user_id = 1;
+  string category_id = 2;
+  float amount = 3;
+  string period = 4;
+  string start_time = 5;
+  string end_time = 6;
+}
+
+message Budgets {
+  repeated Budget budgets = 1;
+  int32 count = 2;
+}

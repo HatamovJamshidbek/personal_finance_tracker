@@ -1,0 +1,28 @@
+syntax="proto3";
+
+
+option go_package="genproto/auth_service";
+import "google/protobuf/empty.proto";
+message  User{
+     string  id=1;
+     string  username=2;
+     string  full_name=3;
+     string  email=4;
+     string  phone=6;
+     string  Image=7;
+     string  Role=8;
+     string  created_at=9;
+     string  updated_at =10;
+}
+message  PrimaryKeyUser{
+  string  id=1;
+}
+
+service  UserService {
+   rpc UpdateUserProfile(User)returns(User);
+   rpc GetUserProfile(PrimaryKeyUser)returns(User);
+   rpc Logout(google.protobuf.Empty)returns(google.protobuf.Empty);
+}
+
+
+

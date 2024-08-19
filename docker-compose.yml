@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongosh
+      MONGO_INITDB_ROOT_PASSWORD: 1111
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app
+
+  budget_service:
+    container_name: budget_docker
+    build: budgeting_service
+    ports:
+      - "8082:8082"
+    networks:
+      - app
+    depends_on:
+      - mongodb
+      - redis
+
+  postgres-db3:
+    container_name: postgres3
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: casbin
+    networks:
+      - app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres3_data:/data/postgres3
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: 1111
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app
+
+  api-service:
+    container_name: api-gateway
+    build: api_gateway
+    depends_on:
+      - postgres-db3
+      - rabbitmq
+      - mongodb
+      - redis
+    ports:
+      - "8080:8080"
+    environment:
+      HTTP_PORT: ":8080"
+      BUDGET_SERVICE_GRPC_HOST: "localhost"
+      BUDGET_SERVICE_GRPC_PORT: ":8082"
+      USER_SERVICE_GRPC_HOST: "localhost"
+      USER_SERVICE_GRPC_PORT: ":8081"
+    networks:
+      - app
+
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: auth_service
+    networks:
+      - app
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_auth_data:/data/postgres
+
+  migration:
+    image: migrate/migrate
+    networks:
+      - app
+    volumes:
+      - ./auth/migrations:/migrations
+    command: [ "sudo","-path", "/migrations", "-database", "postgres://postgres:1111@db:5432/auth_service?sslmode=disable", "up" ]
+    depends_on:
+      - postgres-db
+
+  auth-services:
+    container_name: auth-services1
+    build: auth
+    networks:
+      - app
+    ports:
+      - "8090:8090"
+    depends_on:
+      - migration
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mongo_data:
+  postgres3_data:
+  rabbitmq_data:
+  postgres_auth_data:

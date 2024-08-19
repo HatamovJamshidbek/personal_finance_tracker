@@ -1,0 +1,66 @@
+syntax="proto3";
+
+
+option  go_package="genproto/budgeting_service";
+
+import "google/protobuf/empty.proto";
+
+import "common.proto";
+service  GoalService {
+  rpc CreateGoal (GoalRequest) returns(Goal);
+  rpc UpdateGoal(Goal)returns(Goal);
+  rpc GetGoal(PrimaryKey)returns(Goal);
+  rpc GetListGoals(GetListRequest)returns(Goals);
+  rpc DeleteGoal(PrimaryKey) returns(google.protobuf.Empty);
+  rpc GetGoalReportProgress(GoalProgressRequest)returns (GoalProgressResponse);
+
+}
+
+
+message Goal {
+      string id=1;
+      string user_id=2;
+      string  name=3;
+      float  target_amount=4;
+      float  current_amount=5;
+      string deadline=6;
+     string  status=7;
+     string created_at=8;
+     string updated_at=9;
+}
+message GoalRequest {
+  string user_id=1;
+  string  name=2;
+  float  target_amount=3;
+  float  current_amount=4;
+  string deadline=5;
+  string  status=6;
+}
+message Goals {
+  repeated  Goal goals=1;
+  int32  count=2;
+
+}
+message GoalProgressReport {
+  Goal goal=1;
+  float  progress=2;
+}
+message GoalProgressesReport {
+  repeated  GoalProgressReport goal_progresses_report=1;
+}
+message  GoalProgressRequest {
+  string  user_id=1;
+  string  start_time=2;
+  string  end_time=3;
+}
+message  GoalProgressItem {
+  string  status=1;
+  float  target_amount_sum=2;
+  float  current_amount_sum=3;
+  float  total_amount=4;
+
+
+}
+message GoalProgressResponse {
+  repeated GoalProgressItem results = 1; // List of goal progress items
+}

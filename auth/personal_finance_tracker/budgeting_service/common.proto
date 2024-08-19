@@ -1,0 +1,18 @@
+syntax="proto3";
+
+
+option  go_package="genproto/budgeting_service";
+
+
+import  "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+message  PrimaryKey{
+  string  id=1;
+}
+message GetListRequest{
+  int32 page=1;
+  int32  limit=2;
+  string  search=3;
+}
